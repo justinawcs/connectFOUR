@@ -2,9 +2,28 @@
   display: grid;
   grid-template-columns: repeat(7, 60px);
   grid-template-rows: 60px repeat(5, 60px);
-  border: 4px black solid;
+  border: 10px black solid;
   width: 420px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  background-color: black;
+}
+.space {
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 1px;
+}
+.space:hover {
+  background-color: white;
+}
+
+.red{
+  background-color: red;
+}
+
+.blue{
+  background-color: blue;
 }
