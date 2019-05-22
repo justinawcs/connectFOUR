@@ -1,5 +1,5 @@
-board = {};
-turn = {
+var board = {};
+var turn = {
   active : "blue", //0
   count : 0,
   next: function(){
@@ -9,9 +9,9 @@ turn = {
     }else{
       this.active = "red";
     }
-    return this.count, this.active;
+    return [this.count, this.active];
   }
-}
+};
 
 
 function draw_board(columns, rows) {
@@ -48,20 +48,39 @@ function isFilled(item){
       return false;
       break;
     case "red":
-      return true, "red";
+      return true;
       break;
     case "blue":
-      return true, "blue";
+      return true;
       break;
     default:
-      return "ERROR"
+      return "ERROR";
   }
 }
 
 function fill(item, color){
-  board[item].className = color
+  board[item].className = color;
 }
 
-function changeTurn(){
+function drop(item){
+  console.log("Column:", board[item].dataset.col);
+  var c = board[item].dataset.col;
+  //var column = [];
+  // make array
+  var dropped = false;
+  var start = 6;
+  while(!dropped && start >=1){
+    console.log("item", board["item-" + c + "-" + start ]);
+    var temp = board["item-" + c + "-" + start];
+    console.log(typeof(temp) );
+    //column.push(temp);
+    if( !isFilled(item) ){
+      dropped = true;
+      fill(item, turn.active);
+      turn.next();
+    }
+    start--;
+  }
 
+  //console.log(column);
 }

@@ -9,7 +9,7 @@
   margin-right: auto;
   background-color: black;
 }
-.empty {
+#board button{
   border: none;
   text-decoration: none;
   display: inline-block;
