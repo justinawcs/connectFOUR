@@ -4,7 +4,10 @@ var turn = {
   count : 0,
   next: function(){
     this.count++;
-    if (this.count % 2 == 0){
+    if(this.count > 41){
+      // GAME OVER. Condition 3.
+      console.log("Game Over!");
+    } else if (this.count % 2 == 0){
       this.active = "blue";
     }else{
       this.active = "red";
@@ -12,7 +15,6 @@ var turn = {
     return [this.count, this.active];
   }
 };
-
 
 function draw_board(columns, rows) {
   var col, row;
@@ -23,7 +25,7 @@ function draw_board(columns, rows) {
       item.id = "item-"+col+"-"+row;
       item.className = "empty";
       item.type = "button";
-      item.onclick = function(){select(this.id)};
+      item.onclick = function(){select(this.id, turn.active)};
       item.innerHTML = col +"-"+row;
       item.setAttribute("data-col", col);
       item.setAttribute("data-row", row);
@@ -36,10 +38,14 @@ function draw_board(columns, rows) {
 }
 
 function select(item, color){
-  console.log("clicked "+item);
-  var col = document.getElementById(item).getAttribute("data-col");
-  var row = document.getElementById(item).getAttribute("data-row");
-  console.log(col + " " + row);
+  //var col = document.getElementById(item).getAttribute("data-col");
+  //var row = document.getElementById(item).getAttribute("data-row");
+  //console.log(col + " " + row);
+  if( drop(item) ){
+    console.log(turn.active, item );
+    //check for win
+    turn.next();
+  }
 }
 
 function isFilled(item){
@@ -63,24 +69,22 @@ function fill(item, color){
 }
 
 function drop(item){
-  console.log("Column:", board[item].dataset.col);
+  //console.log("Column:", board[item].dataset.col);
   var c = board[item].dataset.col;
   //var column = [];
   // make array
   var dropped = false;
   var start = 6;
-  while(!dropped && start >=1){
-    console.log("item", board["item-" + c + "-" + start ]);
-    var temp = board["item-" + c + "-" + start];
-    console.log(typeof(temp) );
+  var end = board[item].dataset.row;
+  while(!dropped && start >=end){
+    //console.log("item", board["item-" + c + "-" + start ]);
+    var temp = "item-" + c + "-" + start;
     //column.push(temp);
-    if( !isFilled(item) ){
+    if( !isFilled(temp) ){ // is empty
       dropped = true;
-      fill(item, turn.active);
-      turn.next();
+      fill(temp, turn.active);
     }
     start--;
   }
-
-  //console.log(column);
+  return true;
 }
