@@ -64,6 +64,22 @@ function isFilled(item){
   }
 }
 
+function isColor(color, item){
+    try{
+        var it = board[item].className;
+    }catch(TypeError){
+        //console.log(item + " Out of Bounds");
+        return false;
+    }
+    if(it == "empty"){
+        return false;
+    }else if(it == color){
+        return true;
+    }else{
+        return false
+    }
+}
+
 function fill(item, color){
   board[item].className = color;
 }
@@ -88,3 +104,32 @@ function drop(item){
   }
   return true;
 }
+
+var look = function(color, posy, posx, dy, dx, count){
+    var item = "item-" + posy +"-"+ posx;
+    //var next = "item-" + (posy+dy) +"-"+ (posx+dx); // (col) + (row)
+    if(!isColor(color, item)){ //terminal case
+        return count; // false
+    }else {
+        //count++;
+        console.log(item, "count", count+1 );
+        return look(color, (posy+dy), (posx+dx), dy, dx, count+1);
+    }
+};
+
+function search(color, item){
+    var col = board[item].getAttribute("data-col");
+    var row = board[item].getAttribute("data-row");
+    console.log("col:", col, "row:", row);
+    //horizontal
+    console.log("left", new look(color, col, row, -1, 0, 0) );
+    console.log("right", new look(color, col, row, 1, 0, 0) );
+}
+
+var test = function(number){
+    if (number <= 0) { // terminal case
+        return 1;
+    } else { // block to execute
+        return (number * test(number - 1));
+    } 
+};
