@@ -60,3 +60,9 @@
 .wait{
     opacity: .15;
 }
+.winner{
+  width: 220px;
+}
+.winner::after {
+    content: " - WINNER!";
+}

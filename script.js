@@ -18,7 +18,14 @@ var turn = {
       document.getElementById("player2").classList.remove("wait");
     }
     return [this.count, this.active];
-  }
+  },
+  name: function(){
+    if(this.active === "blue"){
+      return "player1";
+    }else{
+      return "player2";
+    }
+  },
 };
 
 function draw_board(columns, rows) {
@@ -54,6 +61,7 @@ function select(item, color){
     if( search(turn.active, result[1]) ){
       //Winner Game over
       console.log(turn.active, "is the Winner!");
+      document.getElementById(turn.name()).classList.add("winner");
       turn.end_game = true;
     }else{
       turn.next();
