@@ -26,9 +26,28 @@ var turn = {
       return "player2";
     }
   },
+  reset : function(){
+    this.active = "blue";
+    this.count = 0;
+    this.end_game = false;
+  }
 };
 
+function reset(){
+  turn.reset();
+  document.getElementById(turn.name()).classList.remove("winner");
+  var col, row, item;
+  for(row=1; row<=board.rows; row++){
+    for(col=1; col<=board.columns; col++){
+      item = board["item-"+col +"-"+ row];
+      item.className = "empty";
+    }
+  }
+}
+
 function draw_board(columns, rows) {
+  board.columns = columns;
+  board.rows = rows;
   var col, row;
   //var i = 0;
   for(row=1; row<=rows; row++){
@@ -41,7 +60,7 @@ function draw_board(columns, rows) {
       //item.innerHTML = col +"-"+row;
       item.setAttribute("data-col", col);
       item.setAttribute("data-row", row);
-      item.setAttribute("data-space", "");
+      //item.setAttribute("data-space", "");
       document.getElementById("board").appendChild(item);
       board[item.id] = item;
       //i++;
@@ -112,8 +131,8 @@ function drop(item_name){
   // make array
   var dropped = false;
   var start = 6;
-  var end = board[item_name].dataset.row;
-  while(!dropped && start >=end){
+  //var end = board[item_name].dataset.row;
+  while(!dropped ){
     //console.log("item", board["item-" + c + "-" + start ]);
     var temp = "item-" + c + "-" + start;
     //column.push(temp);

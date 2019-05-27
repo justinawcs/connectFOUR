@@ -1,3 +1,7 @@
+.info{
+  font-size: 36px;
+  font-family: Arial, Helvetica, sans-serif;
+}
 .board {
   display: grid;
   grid-template-columns: repeat(7, 60px);
@@ -46,6 +50,7 @@
     float: left;
     text-align: left;
     border: 3px solid black;
+    border-bottom: none;
     border-radius: 10px 10px 0 0;
     background: blue;
 }
@@ -54,6 +59,7 @@
     float: right;
     text-align: right;
     border: 3px solid black;
+    border-bottom: none;
     border-radius: 10px 10px 0 0;
     background: red;
 }
@@ -62,7 +68,25 @@
 }
 .winner{
   width: 220px;
+  text-align: center;
 }
 .winner::after {
     content: " - WINNER!";
+}
+
+.controls{
+  text-align: center;
+}
+
+.reset {
+  border: 2px solid black;
+  border-top: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  font-size: 16px;
+}
+.reset:hover{
+  background-color: #aaa;
 }
