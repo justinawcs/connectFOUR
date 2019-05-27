@@ -2,6 +2,7 @@ var board = {};
 var turn = {
   active : "blue", //0
   count : 0,
+  end_game: false,
   next: function(){
     this.count++;
     if(this.count > 41){
@@ -38,13 +39,21 @@ function draw_board(columns, rows) {
 }
 
 function select(item, color){
+  if(turn.end_game){
+    return;
+  }
   //var col = document.getElementById(item).getAttribute("data-col");
   //var row = document.getElementById(item).getAttribute("data-row");
   //console.log(col + " " + row);
-  if( drop(item) ){
-    console.log(turn.active, item );
-    turn.next();
-    //check for win
+  result = drop(item);
+  if( result[0] ){
+    if( search(turn.active, result[1]) ){
+      //Winner Game over
+      console.log(turn.active, "is the Winner!");
+      turn.end_game = true;
+    }else{
+      turn.next();
+    }
   }
 }
 
@@ -97,34 +106,64 @@ function drop(item_name){
     var temp = "item-" + c + "-" + start;
     //column.push(temp);
     if( !isFilled(temp) ){ // is empty
+      console.log("Dropped: ", turn.active, temp);
       dropped = true;
       fill(temp, turn.active);
-      return true;
+      //search
+      //search(turn.active, temp);
+      return [true, temp];
     }
     start--;
   }
   return false;
 }
 
-var look = function(color, posy, posx, dy, dx, count){
-    var item = "item-" + posy +"-"+ posx;
-    //var next = "item-" + (posy+dy) +"-"+ (posx+dx); // (col) + (row)
+function look(color, col, row, dCol, dRow, count){
+    var item = "item-" + col +"-"+ row;
     if(!isColor(color, item)){ //terminal case
-        return count; // false
+      //console.log("stop:", item);
+      return count; // false
     }else {
-        //count++;
-        console.log(item, "count", count+1 );
-        return look(color, (posy+dy), (posx+dx), dy, dx, count+1);
+      //count++;
+      //console.log("looking: ", item, "count", count+1 );
+      return (look(color, Number(col)+Number(dCol), Number(row)+Number(dRow),
+          dCol, dRow, count+1) );
     }
-};
+}
 
 function search(color, item){
     var col = board[item].getAttribute("data-col");
     var row = board[item].getAttribute("data-row");
-    console.log("col:", col, "row:", row);
+    //console.log("col:", col, "row:", row);
     //horizontal
-    console.log("left", new look(color, col, row, -1, 0, 0) );
-    console.log("right", new look(color, col, row, 1, 0, 0) );
+    var left = look(color, col, row, -1, 0, -1) ;
+    var right = look(color, col, row, 1, 0, -1) ;
+    var h_total = left + right +1;
+    console.log("left", left, "right", right,
+        "Total", h_total);
+    //vertical
+    var up = look(color, col, row, 0, -1, -1);
+    var down = look(color, col, row, 0, 1, -1);
+    var v_total = up + down +1;
+    console.log("up", up, "down", down,
+        "Total", v_total);
+    //diagonal
+    var upleft = look(color, col, row, -1, -1, -1);
+    var downright = look(color, col, row, 1, 1, -1);
+    var d1_total = upleft + downright +1;
+    console.log("up-Left", upleft, "down-right", downright,
+        "Total", d1_total);
+    var upright = look(color, col, row, 1, -1, -1);
+    var downleft = look(color, col, row, -1, 1, -1);
+    var d2_total = upright + downleft +1;
+    console.log("up-right", upright,"down-Left",  downleft,
+        "Total", d2_total);
+    if( h_total >=4 || v_total >=4 || d1_total >=4 || d2_total >= 4){
+      console.log(turn.active, "wins");
+      return true;
+    }else{
+      return false;
+    }
 }
 
 var test = function(number){
