@@ -10,8 +10,12 @@ var turn = {
       console.log("Game Over!");
     } else if (this.count % 2 == 0){
       this.active = "blue";
+      document.getElementById("player2").classList.add("wait");
+      document.getElementById("player1").classList.remove("wait");
     }else{
       this.active = "red";
+      document.getElementById("player1").classList.add("wait");
+      document.getElementById("player2").classList.remove("wait");
     }
     return [this.count, this.active];
   }
@@ -27,7 +31,7 @@ function draw_board(columns, rows) {
       item.className = "empty";
       item.type = "button";
       item.onclick = function(){select(this.id, turn.active)};
-      item.innerHTML = col +"-"+row;
+      //item.innerHTML = col +"-"+row;
       item.setAttribute("data-col", col);
       item.setAttribute("data-row", row);
       item.setAttribute("data-space", "");
