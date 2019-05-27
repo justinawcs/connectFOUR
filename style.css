@@ -1,4 +1,4 @@
-#board {
+.board {
   display: grid;
   grid-template-columns: repeat(7, 60px);
   grid-template-rows: 60px repeat(5, 60px);
@@ -9,7 +9,7 @@
   margin-right: auto;
   background-color: black;
 }
-#board button{
+.board button{
   border: none;
   text-decoration: none;
   display: inline-block;
@@ -26,4 +26,37 @@
 
 .blue{
   background-color: blue;
+}
+
+#top{
+    margin: 0 auto;
+    text-align: center;
+    width: 440px;
+}
+
+.player{
+    margin: 0 auto;
+    padding: 10px;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.player1{
+    width: 150px;
+    float: left;
+    text-align: left;
+    border: 3px solid black;
+    border-radius: 10px 10px 0 0;
+    background: blue;
+}
+.player2{
+    width: 150px;
+    float: right;
+    text-align: right;
+    border: 3px solid black;
+    border-radius: 10px 10px 0 0;
+    background: red;
+}
+.wait{
+    opacity: .15;
 }
