@@ -43,8 +43,8 @@ function select(item, color){
   //console.log(col + " " + row);
   if( drop(item) ){
     console.log(turn.active, item );
-    //check for win
     turn.next();
+    //check for win
   }
 }
 
@@ -64,18 +64,18 @@ function isFilled(item){
   }
 }
 
-function fill(item, color){
-  board[item].className = color;
+function fill(item_name, color){
+  board[item_name].className = color;
 }
 
-function drop(item){
-  //console.log("Column:", board[item].dataset.col);
-  var c = board[item].dataset.col;
+function drop(item_name){
+  //console.log("Column:", board[item_name].dataset.col);
+  var c = board[item_name].dataset.col;
   //var column = [];
   // make array
   var dropped = false;
   var start = 6;
-  var end = board[item].dataset.row;
+  var end = board[item_name].dataset.row;
   while(!dropped && start >=end){
     //console.log("item", board["item-" + c + "-" + start ]);
     var temp = "item-" + c + "-" + start;
@@ -83,8 +83,9 @@ function drop(item){
     if( !isFilled(temp) ){ // is empty
       dropped = true;
       fill(temp, turn.active);
+      return true;
     }
     start--;
   }
-  return true;
+  return false;
 }
