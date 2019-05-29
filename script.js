@@ -30,12 +30,14 @@ var turn = {
     this.active = "blue";
     this.count = 0;
     this.end_game = false;
+    document.getElementById("player2").classList.add("wait");
+    document.getElementById("player1").classList.remove("wait");
   }
 };
 
 function reset(){
-  turn.reset();
   document.getElementById(turn.name()).classList.remove("winner");
+  turn.reset();
   var col, row, item;
   for(row=1; row<=board.rows; row++){
     for(col=1; col<=board.columns; col++){
